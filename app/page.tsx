@@ -343,11 +343,9 @@ export default function Home() {
                 columns={columns}
                 dataSource={filteredData}
                 pagination={{
-                  defaultPageSize: 25,
-                  showSizeChanger: true,
-                  pageSizeOptions: ['10', '25', '50', '100'],
-                  showTotal: (total, range) => `${range[0]}-${range[1]} of ${total}`,
-                  style: { padding: '16px' },
+                  defaultPageSize: 50,
+                  showSizeChanger: false,
+                  hideOnSinglePage: true,
                 }}
                 scroll={{ x: 1100 }}
                 size="middle"
