@@ -1,0 +1,240 @@
+{
+  "CHEMICALS": {
+    "Other": [
+      "Carbon Black",
+      "Commodity Chemicals",
+      "Dyes And Pigments",
+      "Electrodes & Refractories",
+      "Fertilizers",
+      "Industrial Gases",
+      "Industrial Minerals",
+      "Lubricants",
+      "Pesticides & Agrochemicals",
+      "Petrochemicals",
+      "Printing Inks",
+      "Specialty Chemicals",
+      "Trading - Chemicals"
+    ]
+  },
+  "CONSUMER": {
+    "Discretionary": [
+      "Amusement Parks/ Other Recreation",
+      "Gems, Jewellery And Watches",
+      "Hotels & Resorts",
+      "Leisure Products",
+      "Restaurants",
+      "Tour, Travel Related Services",
+      "Wellness"
+    ],
+    "Durables": [
+      "Consumer Electronics",
+      "Household Appliances",
+      "Houseware"
+    ],
+    "Retail": [
+      "Diversified Retail",
+      "E-Retail/ E-Commerce",
+      "Footwear",
+      "Garments & Apparels",
+      "Internet & Catalogue Retail",
+      "Pharmacy Retail",
+      "Plastic Products - Consumer",
+      "Speciality Retail"
+    ],
+    "Staples": [
+      "Cigarettes & Tobacco Products",
+      "Diversified FMCG",
+      "Household Products",
+      "Packaged Foods",
+      "Personal Care"
+    ]
+  },
+  "CRAFT TYPE": {
+    "Other": [
+      "Forest Products",
+      "Furniture, Home Furnishing",
+      "Granites & Marbles",
+      "Jute & Jute Products",
+      "Leather And Leather Products",
+      "Printing & Publication",
+      "Stationary"
+    ]
+  },
+  "DEFENSE": {
+    "Other": [
+      "Aerospace & Defense"
+    ]
+  },
+  "ENERGY": {
+    "Fossil": [
+      "Coal",
+      "Gas Transmission/Marketing",
+      "LPG/CNG/PNG/LNG Supplier",
+      "Offshore Support Solution Drilling",
+      "Oil Equipment & Services",
+      "Oil Exploration & Production",
+      "Oil Storage & Transportation",
+      "Refineries & Marketing",
+      "Trading - Gas"
+    ],
+    "Power": [
+      "Integrated Power Utilities",
+      "Multi Utilities",
+      "Power - Transmission",
+      "Power Distribution",
+      "Power Generation",
+      "Power Trading"
+    ]
+  },
+  "FINANCIAL": {
+    "NBFC": [
+      "Non Banking Financial Company (NBFC)"
+    ],
+    "Other": [
+      "Asset Management Company",
+      "Financial Institution",
+      "Financial Products Distributor",
+      "Housing Finance Company",
+      "Investment Company",
+      "Microfinance Institutions",
+      "Other Financial Services"
+    ],
+    "Other Bank": [
+      "Other Bank"
+    ],
+    "PSU Bank": [
+      "Public Sector Bank"
+    ],
+    "Private Bank": [
+      "Private Sector Bank"
+    ]
+  },
+  "FOOD": {
+    "Other": [
+      "Animal Feed",
+      "Breweries & Distilleries",
+      "Dairy Products",
+      "Edible Oil",
+      "Meat Products including Poultry",
+      "Other Beverages",
+      "Other Food Products",
+      "Seafood",
+      "Sugar",
+      "Tea & Coffee"
+    ]
+  },
+  "HEALTHCARE": {
+    "Other": [
+      "Healthcare Research, Analytics & Technology",
+      "Healthcare Service Provider",
+      "Hospital",
+      "Medical Equipment & Supplies",
+      "Pharmaceuticals"
+    ]
+  },
+  "INDUSTRIAL": {
+    "Capital Goods": [
+      "Compressors, Pumps & Diesel Engines",
+      "Heavy Electrical Equipment",
+      "Other Electrical Equipment"
+    ],
+    "Parts": [
+      "Abrasives & Bearings",
+      "Castings & Forgings"
+    ],
+    "Products": [
+      "Glass - Industrial",
+      "Industrial Products",
+      "Other Industrial Products"
+    ]
+  },
+  "INFRASTRUCTURE": {
+    "Other": [
+      "Civil Construction",
+      "Dredging",
+      "Road AssetsToll, Annuity, Hybrid-Annuity"
+    ]
+  },
+  "INSURANCE": {
+    "Other": [
+      "General Insurance",
+      "Insurance Distributors",
+      "Life Insurance"
+    ]
+  },
+  "MEDIA": {
+    "Other": [
+      "Advertising & Media Agencies",
+      "Digital Entertainment",
+      "Electronic Media",
+      "Film Production, Distribution & Exhibition",
+      "Media & Entertainment",
+      "Print Media",
+      "TV Broadcasting & Software Production",
+      "Web based media and service"
+    ]
+  },
+  "METALS": {
+    "Other": [
+      "Aluminium",
+      "Aluminium, Copper & Zinc Products",
+      "Copper",
+      "Diversified Metals",
+      "Ferro & Silica Manganese",
+      "Iron & Steel",
+      "Iron & Steel Products",
+      "Pig Iron",
+      "Precious Metals",
+      "Sponge Iron",
+      "Trading - Metals",
+      "Trading - Minerals",
+      "Zinc"
+    ]
+  },
+  "MOBILITY": {
+    "Aviation": [
+      "Airline",
+      "Airport & Airport services"
+    ],
+    "Railways": [
+      "Railway Wagons"
+    ],
+    "Road Transport": [
+      "Logistics Solution Provider",
+      "Road Transport",
+      "Transport Related Services"
+    ],
+    "Shipping": [
+      "Port & Port services",
+      "Ship Building & Allied Services",
+      "Shipping"
+    ]
+  },
+  "TECH": {
+    "Bio": [
+      "Biotechnology"
+    ],
+    "Hardware": [
+      "Computers Hardware & Equipments",
+      "Telecom - Equipment & Accessories",
+      "Telecom - Infrastructure"
+    ],
+    "Services": [
+      "IT Enabled Services",
+      "Other Telecom Services",
+      "Telecom - Cellular & Fixed line services"
+    ],
+    "Software": [
+      "Computers - Software & Consulting",
+      "E-Learning",
+      "Financial Technology (Fintech)",
+      "Software Products"
+    ]
+  },
+  "TEXTILE": {
+    "Other": [
+      "Other Textile Products",
+      "Trading - Textile Products"
+    ]
+  }
+}

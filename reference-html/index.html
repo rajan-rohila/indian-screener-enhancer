@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screener Industry Filter</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+    
+    <style>
+        :root {
+            --md-sys-color-primary: #0b57d0;
+            --md-sys-color-on-primary: #ffffff;
+            --md-sys-color-primary-container: #d3e3fd;
+            --md-sys-color-on-primary-container: #041e49;
+            --md-sys-color-surface: #ffffff;
+            --md-sys-color-on-surface: #1f1f1f;
+            --md-sys-color-on-surface-variant: #444746;
+            --md-sys-color-outline: #747775;
+            --md-sys-color-outline-variant: #c4c7c5;
+            --md-sys-color-background: #f8f9fa;
+            --md-sys-color-error: #b3261e;
+            --md-sys-color-success: #1e8e3e;
+            --nav-width: 240px;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font: 400 14px/20px 'Google Sans', 'Roboto', sans-serif;
+            background: var(--md-sys-color-background);
+            color: var(--md-sys-color-on-surface);
+            min-height: 100vh;
+        }
+        
+        /* Layout */
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Side Navigation */
+        .side-nav {
+            width: var(--nav-width);
+            background: var(--md-sys-color-surface);
+            border-right: 1px solid var(--md-sys-color-outline-variant);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .nav-header {
+            padding: 16px 16px 12px;
+            border-bottom: 1px solid var(--md-sys-color-outline-variant);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .nav-header .material-symbols-rounded {
+            color: var(--md-sys-color-primary);
+            font-size: 24px;
+        }
+        
+        .nav-title {
+            font: 500 16px/24px 'Google Sans', sans-serif;
+        }
+        
+        .nav-section {
+            padding: 8px;
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .nav-label {
+            font: 500 11px/16px 'Google Sans', sans-serif;
+            color: var(--md-sys-color-on-surface-variant);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 12px 12px 8px;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 100px;
+            cursor: pointer;
+            font: 500 14px/20px 'Google Sans', sans-serif;
+            color: var(--md-sys-color-on-surface-variant);
+            transition: all 0.15s ease;
+            margin-bottom: 2px;
+            border: none;
+            background: transparent;
+            width: 100%;
+            text-align: left;
+        }
+        
+        .nav-item:hover {
+            background: rgba(0, 0, 0, 0.04);
+        }
+        
+        .nav-item.selected {
+            background: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+        }
+        
+        .nav-item .material-symbols-rounded {
+            font-size: 20px;
+        }
+        
+        .nav-footer {
+            padding: 12px;
+            border-top: 1px solid var(--md-sys-color-outline-variant);
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: var(--nav-width);
+            padding: 24px;
+        }
+        
+        /* Sub-filter chips */
+        .sub-filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+            padding: 16px;
+            background: var(--md-sys-color-surface);
+            border-radius: 16px;
+            border: 1px solid var(--md-sys-color-outline-variant);
+        }
+        
+        .chip {
+            font: 500 13px/20px 'Google Sans', sans-serif;
+            background: transparent;
+            color: var(--md-sys-color-on-surface-variant);
+            border: 1px solid var(--md-sys-color-outline);
+            border-radius: 8px;
+            padding: 6px 14px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        
+        .chip:hover {
+            background: rgba(0, 0, 0, 0.04);
+        }
+        
+        .chip.selected {
+            background: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+            border-color: transparent;
+        }
+        
+        /* Button */
+        .btn-filled {
+            font: 500 14px/20px 'Google Sans', sans-serif;
+            background: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .btn-filled:hover { background: #0842a0; }
+        .btn-filled:disabled { opacity: 0.5; cursor: default; }
+        .btn-filled .material-symbols-rounded { font-size: 18px; }
+        
+        /* Surface / Card */
+        .surface {
+            background: var(--md-sys-color-surface);
+            border-radius: 16px;
+            border: 1px solid var(--md-sys-color-outline-variant);
+        }
+        
+        .surface-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--md-sys-color-outline-variant);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .surface-title {
+            font: 500 16px/24px 'Google Sans', sans-serif;
+        }
+        
+        /* Table */
+        .table-container { overflow-x: auto; }
+        
+        table { width: 100%; border-collapse: collapse; }
+        
+        th {
+            font: 500 14px/20px 'Google Sans', sans-serif;
+            color: var(--md-sys-color-on-surface-variant);
+            text-align: left;
+            padding: 12px 16px;
+            background: var(--md-sys-color-background);
+            border-bottom: 1px solid var(--md-sys-color-outline-variant);
+            white-space: nowrap;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.15s ease;
+        }
+        
+        th:hover { background: rgba(0, 0, 0, 0.04); }
+        th:first-child { cursor: default; }
+        th:first-child:hover { background: var(--md-sys-color-background); }
+        
+        th .sort-icon {
+            font-size: 16px;
+            vertical-align: middle;
+            margin-left: 4px;
+            opacity: 0.5;
+        }
+        
+        th.sorted .sort-icon { opacity: 1; color: var(--md-sys-color-primary); }
+        
+        th:not(:first-child):not(:nth-child(2)) { text-align: right; }
+        
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--md-sys-color-outline-variant);
+            font: 400 14px/20px 'Google Sans', sans-serif;
+        }
+        
+        td:not(:first-child):not(:nth-child(2)) { text-align: right; }
+        tr:hover td { background: rgba(0, 0, 0, 0.02); }
+        
+        .row-num { color: var(--md-sys-color-on-surface-variant); width: 48px; }
+        
+        .industry-link {
+            color: var(--md-sys-color-primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .industry-link:hover { text-decoration: underline; }
+        
+        .value-positive { color: var(--md-sys-color-success); font-weight: 500; }
+        .value-negative { color: var(--md-sys-color-error); font-weight: 500; }
+        .value-neutral { color: var(--md-sys-color-on-surface-variant); }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 16px;
+            padding: 12px 16px;
+            border-top: 1px solid var(--md-sys-color-outline-variant);
+        }
+        
+        .pagination-info {
+            font: 400 14px/20px 'Google Sans', sans-serif;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+        
+        .pagination select {
+            font: 400 14px/20px 'Google Sans', sans-serif;
+            padding: 8px 12px;
+            border: 1px solid var(--md-sys-color-outline);
+            border-radius: 8px;
+            background: var(--md-sys-color-surface);
+            cursor: pointer;
+        }
+        
+        .pagination-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: transparent;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--md-sys-color-on-surface);
+        }
+        .pagination-btn:hover:not(:disabled) { background: rgba(0, 0, 0, 0.08); }
+        .pagination-btn:disabled { color: var(--md-sys-color-outline); cursor: default; }
+        
+        /* Loading */
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 64px;
+            gap: 16px;
+        }
+        
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid var(--md-sys-color-primary-container);
+            border-top-color: var(--md-sys-color-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        .loading-text {
+            font: 500 16px/24px 'Google Sans', sans-serif;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+        
+        /* Alert */
+        .alert {
+            background: #fce8e6;
+            color: var(--md-sys-color-error);
+            padding: 16px 20px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .active-filter {
+            display: inline-flex;
+            align-items: center;
+            background: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+            padding: 4px 12px;
+            border-radius: 16px;
+            font: 500 12px/16px 'Google Sans', sans-serif;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 48px;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+    </style>
+</head>
+<body>
+    <div class="layout">
+        <!-- Side Navigation -->
+        <nav class="side-nav">
+            <div class="nav-header">
+                <span class="material-symbols-rounded">monitoring</span>
+                <span class="nav-title">Screener Filter</span>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-label">Industry Groups</div>
+                <div id="navItems"></div>
+            </div>
+            
+            <div class="nav-footer">
+                <button class="btn-filled" id="refreshBtn" onclick="fetchData()">
+                    <span class="material-symbols-rounded">refresh</span>
+                    Refresh Data
+                </button>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div id="errorAlert" class="alert" style="display: none;">
+                <span class="material-symbols-rounded">error</span>
+                <span id="errorText"></span>
+            </div>
+            
+            <!-- Sub-filter chips (shown when group selected) -->
+            <div id="subFilterBar" class="sub-filter-bar" style="display: none;"></div>
+            
+            <!-- Data Table -->
+            <div class="surface">
+                <div class="surface-header">
+                    <span class="surface-title">Industry Data</span>
+                    <span id="activeFilterBadge" class="active-filter" style="display: none;"></span>
+                </div>
+                
+                <div id="loadingState" class="loading">
+                    <div class="spinner"></div>
+                    <div class="loading-text">Loading data from Screener.in...</div>
+                </div>
+                
+                <div id="tableContent" style="display: none;">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th onclick="sortBy('name')">Industry<span class="material-symbols-rounded sort-icon" id="sort-name"></span></th>
+                                    <th onclick="sortBy('companies')">Companies<span class="material-symbols-rounded sort-icon" id="sort-companies"></span></th>
+                                    <th onclick="sortBy('marketCap')">Market Cap<span class="material-symbols-rounded sort-icon" id="sort-marketCap"></span></th>
+                                    <th onclick="sortBy('medianCap')">Median Cap<span class="material-symbols-rounded sort-icon" id="sort-medianCap"></span></th>
+                                    <th onclick="sortBy('pe')">P/E<span class="material-symbols-rounded sort-icon" id="sort-pe"></span></th>
+                                    <th onclick="sortBy('salesGrowth')">Sales Growth<span class="material-symbols-rounded sort-icon" id="sort-salesGrowth"></span></th>
+                                    <th onclick="sortBy('opm')">OPM<span class="material-symbols-rounded sort-icon" id="sort-opm"></span></th>
+                                    <th onclick="sortBy('roce')">ROCE<span class="material-symbols-rounded sort-icon" id="sort-roce"></span></th>
+                                    <th onclick="sortBy('return1y')">1Y Return<span class="material-symbols-rounded sort-icon" id="sort-return1y"></span></th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody"></tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="pagination">
+                        <span class="pagination-info">Rows per page:</span>
+                        <select id="rowsPerPage" onchange="changeRowsPerPage()">
+                            <option value="10">10</option>
+                            <option value="25" selected>25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                        <span class="pagination-info" id="paginationInfo"></span>
+                        <button class="pagination-btn" id="prevBtn" onclick="prevPage()">
+                            <span class="material-symbols-rounded">chevron_left</span>
+                        </button>
+                        <button class="pagination-btn" id="nextBtn" onclick="nextPage()">
+                            <span class="material-symbols-rounded">chevron_right</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let config = {}, allData = [], currentGroup = null, currentSub = null, page = 0, rowsPerPage = 25;
+        let sortColumn = null, sortDir = 'asc';
+
+        fetch('config.json')
+            .then(res => res.json())
+            .then(data => { config = data; renderNav(); })
+            .catch(err => console.error('Failed to load config:', err));
+
+        function parseNum(val) {
+            if (!val || val === '-' || val === '%') return null;
+            // Remove commas and % signs, handle negative
+            const clean = val.replace(/,/g, '').replace(/%/g, '').trim();
+            const num = parseFloat(clean);
+            return isNaN(num) ? null : num;
+        }
+
+        function sortBy(col) {
+            if (sortColumn === col) {
+                sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+            } else {
+                sortColumn = col;
+                sortDir = 'asc';
+            }
+            page = 0;
+            renderTable();
+        }
+
+        function getSortedData(data) {
+            if (!sortColumn) return data;
+            
+            return [...data].sort((a, b) => {
+                let aVal = a[sortColumn];
+                let bVal = b[sortColumn];
+                
+                // For string columns (name)
+                if (sortColumn === 'name') {
+                    aVal = aVal || '';
+                    bVal = bVal || '';
+                    const cmp = aVal.localeCompare(bVal);
+                    return sortDir === 'asc' ? cmp : -cmp;
+                }
+                
+                // For numeric columns
+                const aNum = sortColumn === 'companies' ? aVal : parseNum(aVal);
+                const bNum = sortColumn === 'companies' ? bVal : parseNum(bVal);
+                
+                // Handle nulls - push to end
+                if (aNum === null && bNum === null) return 0;
+                if (aNum === null) return 1;
+                if (bNum === null) return -1;
+                
+                return sortDir === 'asc' ? aNum - bNum : bNum - aNum;
+            });
+        }
+
+        function updateSortIcons() {
+            const cols = ['name', 'companies', 'marketCap', 'medianCap', 'pe', 'salesGrowth', 'opm', 'roce', 'return1y'];
+            cols.forEach(col => {
+                const icon = document.getElementById('sort-' + col);
+                const th = icon?.parentElement;
+                if (icon && th) {
+                    if (sortColumn === col) {
+                        icon.textContent = sortDir === 'asc' ? 'arrow_upward' : 'arrow_downward';
+                        th.classList.add('sorted');
+                    } else {
+                        icon.textContent = 'unfold_more';
+                        th.classList.remove('sorted');
+                    }
+                }
+            });
+        }
+
+        async function fetchData() {
+            const btn = document.getElementById('refreshBtn');
+            btn.disabled = true;
+            document.getElementById('loadingState').style.display = 'flex';
+            document.getElementById('tableContent').style.display = 'none';
+            document.getElementById('errorAlert').style.display = 'none';
+            
+            const proxies = ['https://api.allorigins.win/raw?url=', 'https://corsproxy.io/?'];
+            
+            for (const proxy of proxies) {
+                try {
+                    const res = await fetch(proxy + encodeURIComponent('https://www.screener.in/market/'));
+                    if (!res.ok) continue;
+                    const html = await res.text();
+                    if (html.includes('Industry')) {
+                        parseData(html);
+                        document.getElementById('loadingState').style.display = 'none';
+                        document.getElementById('tableContent').style.display = 'block';
+                        btn.disabled = false;
+                        return;
+                    }
+                } catch (e) { console.log('Proxy failed:', proxy); }
+            }
+            
+            document.getElementById('errorText').textContent = 'Failed to load data. Please try again.';
+            document.getElementById('errorAlert').style.display = 'flex';
+            document.getElementById('loadingState').style.display = 'none';
+            btn.disabled = false;
+        }
+
+        function parseData(html) {
+            const doc = new DOMParser().parseFromString(html, 'text/html');
+            allData = [];
+            doc.querySelectorAll('table tr').forEach((row, idx) => {
+                if (row.querySelector('th')) return;
+                const cells = row.querySelectorAll('td');
+                if (cells.length < 10) return;
+                const link = cells[1]?.querySelector('a');
+                if (!link) return;
+                allData.push({
+                    id: idx,
+                    name: link.textContent.trim(),
+                    url: 'https://www.screener.in' + link.getAttribute('href'),
+                    companies: parseInt(cells[2]?.textContent.trim()) || 0,
+                    marketCap: cells[3]?.textContent.trim(),
+                    medianCap: cells[4]?.textContent.trim(),
+                    pe: cells[5]?.textContent.trim(),
+                    salesGrowth: cells[6]?.textContent.trim(),
+                    opm: cells[7]?.textContent.trim(),
+                    roce: cells[8]?.textContent.trim(),
+                    return1y: cells[9]?.textContent.trim()
+                });
+            });
+            renderTable();
+        }
+
+        function getFilteredData() {
+            if (!currentGroup) return allData;
+            let industries = currentSub 
+                ? (config[currentGroup]?.[currentSub] || [])
+                : Object.values(config[currentGroup] || {}).flat();
+            return allData.filter(d => industries.includes(d.name));
+        }
+
+        function renderNav() {
+            const container = document.getElementById('navItems');
+            const groups = Object.keys(config);
+            container.innerHTML = `
+                <button class="nav-item ${!currentGroup ? 'selected' : ''}" onclick="selectGroup(null)">
+                    <span class="material-symbols-rounded">apps</span>
+                    All Industries
+                </button>
+                ${groups.map(g => `
+                    <button class="nav-item ${currentGroup === g ? 'selected' : ''}" onclick="selectGroup('${g}')">
+                        <span class="material-symbols-rounded">folder</span>
+                        ${g}
+                    </button>
+                `).join('')}
+            `;
+        }
+
+        function renderSubChips() {
+            const bar = document.getElementById('subFilterBar');
+            if (!currentGroup || !config[currentGroup]) {
+                bar.style.display = 'none';
+                return;
+            }
+            const subs = Object.keys(config[currentGroup]);
+            bar.style.display = 'flex';
+            bar.innerHTML = `
+                <button class="chip ${!currentSub ? 'selected' : ''}" onclick="selectSub(null)">All ${currentGroup}</button>
+                ${subs.map(s => `
+                    <button class="chip ${currentSub === s ? 'selected' : ''}" onclick="selectSub('${s}')">${s}</button>
+                `).join('')}
+            `;
+        }
+
+        function selectGroup(group) {
+            currentGroup = group;
+            currentSub = null;
+            page = 0;
+            renderNav();
+            renderSubChips();
+            renderTable();
+        }
+
+        function selectSub(sub) {
+            currentSub = sub;
+            page = 0;
+            renderSubChips();
+            renderTable();
+        }
+
+        function formatValue(val) {
+            if (!val || val === '%') return '<span class="value-neutral">-</span>';
+            return `<span class="${val.includes('-') ? 'value-negative' : 'value-positive'}">${val}</span>`;
+        }
+
+        function renderTable() {
+            const filtered = getFilteredData();
+            const sorted = getSortedData(filtered);
+            const start = page * rowsPerPage;
+            const end = Math.min(start + rowsPerPage, sorted.length);
+            const pageData = sorted.slice(start, end);
+            
+            updateSortIcons();
+            
+            const badge = document.getElementById('activeFilterBadge');
+            if (currentGroup) {
+                badge.textContent = currentSub ? `${currentGroup} › ${currentSub}` : currentGroup;
+                badge.style.display = 'inline-flex';
+            } else {
+                badge.style.display = 'none';
+            }
+            
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = pageData.length === 0 
+                ? '<tr><td colspan="10" class="empty-state">No industries found</td></tr>'
+                : pageData.map((row, idx) => `
+                    <tr>
+                        <td class="row-num">${start + idx + 1}</td>
+                        <td><a href="${row.url}" target="_blank" class="industry-link">${row.name}</a></td>
+                        <td>${row.companies}</td>
+                        <td>${row.marketCap}</td>
+                        <td>${row.medianCap}</td>
+                        <td>${row.pe}</td>
+                        <td>${formatValue(row.salesGrowth)}</td>
+                        <td>${formatValue(row.opm)}</td>
+                        <td>${formatValue(row.roce)}</td>
+                        <td>${formatValue(row.return1y)}</td>
+                    </tr>
+                `).join('');
+            
+            document.getElementById('paginationInfo').textContent = `${start + 1}-${end} of ${sorted.length}`;
+            document.getElementById('prevBtn').disabled = page === 0;
+            document.getElementById('nextBtn').disabled = end >= sorted.length;
+        }
+
+        function prevPage() { if (page > 0) { page--; renderTable(); } }
+        function nextPage() { if ((page + 1) * rowsPerPage < getFilteredData().length) { page++; renderTable(); } }
+        function changeRowsPerPage() { rowsPerPage = parseInt(document.getElementById('rowsPerPage').value); page = 0; renderTable(); }
+
+        fetchData();
+    </script>
+</body>
+</html>
