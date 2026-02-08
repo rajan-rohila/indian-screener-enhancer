@@ -262,6 +262,9 @@ export default function Home() {
           {!currentGroup && <Tag style={{ marginLeft: 8 }}>{allData.length}</Tag>}
         </button>
         
+        {/* Section header */}
+        <div className="sidebar-section-title">Industry Groups</div>
+        
         {/* Industry Groups */}
         {allGroups.map(item => (
           <button
