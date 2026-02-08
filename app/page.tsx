@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo } from 'react';
-import { Layout, Table, Tag, Button, Typography, Alert, Spin } from 'antd';
+import { Layout, Table, Tabs, Tag, Button, Typography, Alert, Spin } from 'antd';
 import { ReloadOutlined, LineChartOutlined } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
 import config from './config';
@@ -125,7 +125,25 @@ export default function Home() {
 
   const subFilters = currentGroup ? Object.keys(config[currentGroup] || {}) : [];
 
+  // Helper to count industries for a group or sub-filter
+  const getIndustryCount = (group: string, sub?: string | null): number => {
+    let industries: string[];
+    if (sub) {
+      industries = config[group]?.[sub] || [];
+    } else {
+      industries = Object.values(config[group] || {}).flat() as string[];
+    }
+    return allData.filter(d => industries.includes(d.name)).length;
+  };
+
   const columns: ColumnsType<IndustryData> = [
+    {
+      title: 'S.No',
+      key: 'sno',
+      width: 60,
+      align: 'center',
+      render: (_: unknown, __: IndustryData, index: number) => index + 1,
+    },
     {
       title: 'Industry',
       dataIndex: 'name',
@@ -241,6 +259,7 @@ export default function Home() {
           onClick={() => { setCurrentGroup(null); setCurrentSub(null); }}
         >
           All Industries
+          {!currentGroup && <Tag style={{ marginLeft: 8 }}>{allData.length}</Tag>}
         </button>
         
         {/* Industry Groups */}
@@ -251,6 +270,7 @@ export default function Home() {
             onClick={() => { setCurrentGroup(item); setCurrentSub(null); }}
           >
             {item}
+            {currentGroup === item && <Tag style={{ marginLeft: 8 }}>{getIndustryCount(item)}</Tag>}
           </button>
         ))}
         
@@ -281,68 +301,38 @@ export default function Home() {
             />
           )}
           
-          {/* Sub-filter chips */}
-          {currentGroup && subFilters.length > 0 && (
-            <div style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: 8,
-              marginBottom: 16,
-              padding: 16,
-              background: '#fff',
-              borderRadius: 8,
-              border: '1px solid #f0f0f0',
-            }}>
-              <Tag
-                style={{
-                  cursor: 'pointer',
-                  padding: '4px 12px',
-                  borderRadius: 6,
-                  fontSize: 13,
-                  background: !currentSub ? '#e6f4ff' : 'transparent',
-                  color: !currentSub ? '#1677ff' : 'rgba(0,0,0,0.65)',
-                  border: !currentSub ? '1px solid #91caff' : '1px solid #d9d9d9',
-                }}
-                onClick={() => setCurrentSub(null)}
-              >
-                All {currentGroup}
-              </Tag>
-              {subFilters.map(sub => (
-                <Tag
-                  key={sub}
-                  style={{
-                    cursor: 'pointer',
-                    padding: '4px 12px',
-                    borderRadius: 6,
-                    fontSize: 13,
-                    background: currentSub === sub ? '#e6f4ff' : 'transparent',
-                    color: currentSub === sub ? '#1677ff' : 'rgba(0,0,0,0.65)',
-                    border: currentSub === sub ? '1px solid #91caff' : '1px solid #d9d9d9',
-                  }}
-                  onClick={() => setCurrentSub(sub)}
-                >
-                  {sub}
-                </Tag>
-              ))}
-            </div>
-          )}
-          
-          {/* Data Table */}
+          {/* Data Table with Tabs */}
           <div style={{ background: '#fff', borderRadius: 8, border: '1px solid #f0f0f0', overflow: 'hidden' }}>
-            <div style={{
-              padding: '16px 20px',
-              borderBottom: '1px solid #f0f0f0',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}>
-              <Text strong style={{ fontSize: 16 }}>Industry Data</Text>
-              {currentGroup && (
-                <Tag color="blue">
-                  {currentSub ? `${currentGroup} › ${currentSub}` : currentGroup}
-                </Tag>
-              )}
-            </div>
+            {/* Sub-filter tabs */}
+            {currentGroup && subFilters.length > 0 && (
+              <div style={{ padding: '0 20px' }}>
+                <Tabs
+                  activeKey={currentSub || 'all'}
+                  onChange={(key) => setCurrentSub(key === 'all' ? null : key)}
+                  items={[
+                    { 
+                      key: 'all', 
+                      label: (
+                        <span>
+                          All {currentGroup}
+                          {!currentSub && <Tag style={{ marginLeft: 8 }}>{getIndustryCount(currentGroup)}</Tag>}
+                        </span>
+                      )
+                    },
+                    ...subFilters.map(sub => ({ 
+                      key: sub, 
+                      label: (
+                        <span>
+                          {sub}
+                          {currentSub === sub && <Tag style={{ marginLeft: 8 }}>{getIndustryCount(currentGroup, sub)}</Tag>}
+                        </span>
+                      )
+                    }))
+                  ]}
+                  style={{ marginBottom: 0 }}
+                />
+              </div>
+            )}
             
             <div style={{ padding: 16 }}>
               <Spin spinning={loading} tip="Loading data from Screener.in...">
@@ -358,7 +348,6 @@ export default function Home() {
                 }}
                 scroll={{ x: 1100 }}
                 size="middle"
-                bordered
                 style={{ width: '100%' }}
               />
               </Spin>
