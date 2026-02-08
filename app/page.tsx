@@ -42,9 +42,6 @@ const ValueCell = ({ value }: { value: string }) => {
   );
 };
 
-// All industry groups as a flat list
-const allGroups = ['AUTO', 'CONSTRUCTION', 'CHEMICALS', 'METALS', 'ENERGY', 'CONSUMER', 'F&B', 'TEXTILE', 'CRAFT TYPE', 'FINANCIAL', 'INSURANCE', 'HEALTHCARE', 'MEDIA', 'INDUSTRIAL', 'INFRASTRUCTURE', 'DEFENSE', 'TECH'];
-
 export default function Home() {
   const [allData, setAllData] = useState<IndustryData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -265,22 +262,115 @@ export default function Home() {
         {/* Section header */}
         <div className="sidebar-section-title">Industry Groups</div>
         
-        {/* Industry Groups */}
-        {allGroups.map(item => {
-          const subs = Object.keys(config[item] || {});
-          // Only auto-select first sub if there are multiple sub-categories
-          const firstSub = subs.length > 1 ? subs[0] : null;
-          return (
-            <button
-              key={item}
-              className={`sidebar-item ${currentGroup === item ? 'active' : ''}`}
-              onClick={() => { setCurrentGroup(item); setCurrentSub(firstSub); }}
-            >
-              {item}
-              {currentGroup === item && <Tag style={{ marginLeft: 8 }}>{getIndustryCount(item)}</Tag>}
-            </button>
-          );
-        })}
+        {/* Financial */}
+        {['FINANCIAL', 'INSURANCE'].map(item => (
+          <button
+            key={item}
+            className={`sidebar-item ${currentGroup === item ? 'active' : ''}`}
+            onClick={() => { setCurrentGroup(item); setCurrentSub(null); }}
+          >
+            {item}
+            {currentGroup === item && <Tag style={{ marginLeft: 8 }}>{getIndustryCount(item)}</Tag>}
+          </button>
+        ))}
+        
+        <div className="sidebar-divider" />
+        
+        {/* Commodities */}
+        {['METALS', 'ENERGY', 'CHEMICALS'].map(item => (
+          <button
+            key={item}
+            className={`sidebar-item ${currentGroup === item ? 'active' : ''}`}
+            onClick={() => { setCurrentGroup(item); setCurrentSub(null); }}
+          >
+            {item}
+            {currentGroup === item && <Tag style={{ marginLeft: 8 }}>{getIndustryCount(item)}</Tag>}
+          </button>
+        ))}
+        
+        <div className="sidebar-divider" />
+        
+        {/* Industrial & Auto */}
+        {['INDUSTRIAL', 'AUTO'].map(item => (
+          <button
+            key={item}
+            className={`sidebar-item ${currentGroup === item ? 'active' : ''}`}
+            onClick={() => { setCurrentGroup(item); setCurrentSub(null); }}
+          >
+            {item}
+            {currentGroup === item && <Tag style={{ marginLeft: 8 }}>{getIndustryCount(item)}</Tag>}
+          </button>
+        ))}
+        
+        <div className="sidebar-divider" />
+        
+        {/* Infrastructure & Construction */}
+        {['INFRASTRUCTURE', 'CONSTRUCTION'].map(item => (
+          <button
+            key={item}
+            className={`sidebar-item ${currentGroup === item ? 'active' : ''}`}
+            onClick={() => { setCurrentGroup(item); setCurrentSub(null); }}
+          >
+            {item}
+            {currentGroup === item && <Tag style={{ marginLeft: 8 }}>{getIndustryCount(item)}</Tag>}
+          </button>
+        ))}
+        
+        <div className="sidebar-divider" />
+        
+        {/* Consumer */}
+        {['CONSUMER', 'F&B', 'TEXTILE', 'CRAFT TYPE'].map(item => (
+          <button
+            key={item}
+            className={`sidebar-item ${currentGroup === item ? 'active' : ''}`}
+            onClick={() => { setCurrentGroup(item); setCurrentSub(null); }}
+          >
+            {item}
+            {currentGroup === item && <Tag style={{ marginLeft: 8 }}>{getIndustryCount(item)}</Tag>}
+          </button>
+        ))}
+        
+        <div className="sidebar-divider" />
+        
+        {/* Media */}
+        {['MEDIA'].map(item => (
+          <button
+            key={item}
+            className={`sidebar-item ${currentGroup === item ? 'active' : ''}`}
+            onClick={() => { setCurrentGroup(item); setCurrentSub(null); }}
+          >
+            {item}
+            {currentGroup === item && <Tag style={{ marginLeft: 8 }}>{getIndustryCount(item)}</Tag>}
+          </button>
+        ))}
+        
+        <div className="sidebar-divider" />
+        
+        {/* Healthcare */}
+        {['HEALTHCARE'].map(item => (
+          <button
+            key={item}
+            className={`sidebar-item ${currentGroup === item ? 'active' : ''}`}
+            onClick={() => { setCurrentGroup(item); setCurrentSub(null); }}
+          >
+            {item}
+            {currentGroup === item && <Tag style={{ marginLeft: 8 }}>{getIndustryCount(item)}</Tag>}
+          </button>
+        ))}
+        
+        <div className="sidebar-divider" />
+        
+        {/* Tech & Defense */}
+        {['TECH', 'DEFENSE'].map(item => (
+          <button
+            key={item}
+            className={`sidebar-item ${currentGroup === item ? 'active' : ''}`}
+            onClick={() => { setCurrentGroup(item); setCurrentSub(null); }}
+          >
+            {item}
+            {currentGroup === item && <Tag style={{ marginLeft: 8 }}>{getIndustryCount(item)}</Tag>}
+          </button>
+        ))}
         
         {/* Refresh Button */}
         <div style={{ padding: '16px', borderTop: '1px solid #f0f0f0', marginTop: 16 }}>
@@ -315,7 +405,7 @@ export default function Home() {
             {currentGroup && subFilters.length > 0 && (
               <div style={{ padding: '0 20px' }}>
                 <Tabs
-                  activeKey={subFilters.length === 1 ? 'all' : (currentSub || subFilters[0])}
+                  activeKey={currentSub || 'all'}
                   onChange={(key) => setCurrentSub(key === 'all' ? null : key)}
                   items={
                     subFilters.length === 1

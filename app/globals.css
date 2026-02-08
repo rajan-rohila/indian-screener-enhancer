@@ -63,6 +63,12 @@ body {
   font-weight: 500;
 }
 
+.sidebar-divider {
+  height: 1px;
+  background: #f0f0f0;
+  margin: 4px 16px;
+}
+
 /* Smooth scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
