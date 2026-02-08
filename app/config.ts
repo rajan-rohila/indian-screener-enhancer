@@ -1,4 +1,4 @@
-{
+const config: Record<string, Record<string, string[]>> = {
   "CHEMICALS": {
     "Other": [
       "Carbon Black",
@@ -237,4 +237,6 @@
       "Trading - Textile Products"
     ]
   }
-}
+};
+
+export default config;
