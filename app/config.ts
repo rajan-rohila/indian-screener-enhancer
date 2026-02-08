@@ -1,35 +1,71 @@
 const config: Record<string, Record<string, string[]>> = {
+  "AUTO": {
+    "OEM": [
+      "Commercial Vehicles",
+      "Tractors",
+      "Passenger Cars & Utility Vehicles",
+      "2/3 Wheelers",
+      "Construction Vehicles"
+    ],
+    "Ancillary": [
+      "Tyres & Rubber Products",
+      "Auto Components & Equipments",
+      "Trading - Auto components"
+    ],
+    "Dealer": [
+      "Auto Dealer",
+      "Dealers-Commercial Vehicles, Tractors, Construction Vehicles"
+    ]
+  },
+  "CONSTRUCTION": {
+    "Materials": [
+      "Cement & Cement Products",
+      "Paints",
+      "Ceramics",
+      "Cables - Electricals",
+      "Sanitary Ware",
+      "Plywood Boards/ Laminates",
+      "Glass - Consumer",
+      "Other Construction Materials"
+    ],
+    "Real Estate": [
+      "Residential, Commercial Projects",
+      "Real Estate related services",
+      "Real Estate Investment Trusts (REITs)"
+    ]
+  },
   "CHEMICALS": {
-    "Other": [
-      "Carbon Black",
-      "Commodity Chemicals",
-      "Dyes And Pigments",
-      "Electrodes & Refractories",
-      "Fertilizers",
-      "Industrial Gases",
-      "Industrial Minerals",
-      "Lubricants",
-      "Pesticides & Agrochemicals",
-      "Petrochemicals",
-      "Printing Inks",
+    "Specialty": [
       "Specialty Chemicals",
+      "Dyes And Pigments",
+      "Printing Inks",
+      "Carbon Black"
+    ],
+    "Agri": [
+      "Pesticides & Agrochemicals",
+      "Fertilizers"
+    ],
+    "Commodity": [
+      "Commodity Chemicals",
+      "Petrochemicals",
+      "Industrial Gases"
+    ],
+    "Industrial": [
+      "Industrial Minerals",
+      "Electrodes & Refractories",
+      "Lubricants"
+    ],
+    "Trading": [
       "Trading - Chemicals"
     ]
   },
   "CONSUMER": {
-    "Discretionary": [
-      "Amusement Parks/ Other Recreation",
-      "Gems, Jewellery And Watches",
-      "Hotels & Resorts",
-      "Leisure Products",
-      "Restaurants",
-      "Tour, Travel Related Services",
-      "Wellness"
-    ],
-    "Durables": [
-      "Consumer Electronics",
-      "Household Appliances",
-      "Houseware"
+    "Staples": [
+      "Cigarettes & Tobacco Products",
+      "Diversified FMCG",
+      "Household Products",
+      "Packaged Foods",
+      "Personal Care"
     ],
     "Retail": [
       "Diversified Retail",
@@ -41,12 +77,19 @@ const config: Record<string, Record<string, string[]>> = {
       "Plastic Products - Consumer",
       "Speciality Retail"
     ],
-    "Staples": [
-      "Cigarettes & Tobacco Products",
-      "Diversified FMCG",
-      "Household Products",
-      "Packaged Foods",
-      "Personal Care"
+    "Durables": [
+      "Consumer Electronics",
+      "Household Appliances",
+      "Houseware"
+    ],
+    "Discretionary": [
+      "Amusement Parks/ Other Recreation",
+      "Gems, Jewellery And Watches",
+      "Hotels & Resorts",
+      "Leisure Products",
+      "Restaurants",
+      "Tour, Travel Related Services",
+      "Wellness"
     ]
   },
   "CRAFT TYPE": {
@@ -66,173 +109,201 @@ const config: Record<string, Record<string, string[]>> = {
     ]
   },
   "ENERGY": {
-    "Fossil": [
-      "Coal",
-      "Gas Transmission/Marketing",
-      "LPG/CNG/PNG/LNG Supplier",
-      "Offshore Support Solution Drilling",
-      "Oil Equipment & Services",
+    "Power": [
+      "Power Generation",
+      "Power Distribution",
+      "Power - Transmission",
+      "Power Trading",
+      "Integrated Power Utilities",
+      "Multi Utilities"
+    ],
+    "Oil & Gas": [
+      "Refineries & Marketing",
       "Oil Exploration & Production",
       "Oil Storage & Transportation",
-      "Refineries & Marketing",
+      "Oil Equipment & Services",
+      "Offshore Support Solution Drilling",
+      "Gas Transmission/Marketing",
+      "LPG/CNG/PNG/LNG Supplier",
       "Trading - Gas"
     ],
-    "Power": [
-      "Integrated Power Utilities",
-      "Multi Utilities",
-      "Power - Transmission",
-      "Power Distribution",
-      "Power Generation",
-      "Power Trading"
+    "Coal": [
+      "Coal"
     ]
   },
   "FINANCIAL": {
-    "NBFC": [
-      "Non Banking Financial Company (NBFC)"
-    ],
-    "Other": [
-      "Asset Management Company",
-      "Financial Institution",
-      "Financial Products Distributor",
-      "Housing Finance Company",
-      "Investment Company",
-      "Microfinance Institutions",
-      "Other Financial Services"
-    ],
-    "Other Bank": [
+    "Banks": [
+      "Public Sector Bank",
+      "Private Sector Bank",
       "Other Bank"
     ],
-    "PSU Bank": [
-      "Public Sector Bank"
+    "NBFC": [
+      "Non Banking Financial Company (NBFC)",
+      "Microfinance Institutions",
+      "Housing Finance Company"
     ],
-    "Private Bank": [
-      "Private Sector Bank"
+    "Asset Mgmt": [
+      "Asset Management Company",
+      "Investment Company"
+    ],
+    "Services": [
+      "Financial Institution",
+      "Financial Products Distributor",
+      "Other Financial Services"
     ]
   },
-  "FOOD": {
-    "Other": [
-      "Animal Feed",
+  "F&B": {
+    "Beverages": [
       "Breweries & Distilleries",
-      "Dairy Products",
-      "Edible Oil",
-      "Meat Products including Poultry",
-      "Other Beverages",
-      "Other Food Products",
-      "Seafood",
+      "Tea & Coffee",
+      "Other Beverages"
+    ],
+    "Staples": [
       "Sugar",
-      "Tea & Coffee"
+      "Edible Oil",
+      "Dairy Products"
+    ],
+    "Protein": [
+      "Meat Products including Poultry",
+      "Seafood"
+    ],
+    "Other": [
+      "Other Food Products",
+      "Animal Feed"
     ]
   },
   "HEALTHCARE": {
-    "Other": [
-      "Healthcare Research, Analytics & Technology",
-      "Healthcare Service Provider",
-      "Hospital",
-      "Medical Equipment & Supplies",
+    "Pharma": [
       "Pharmaceuticals"
+    ],
+    "Services": [
+      "Hospital",
+      "Healthcare Service Provider"
+    ],
+    "Equipment": [
+      "Medical Equipment & Supplies",
+      "Healthcare Research, Analytics & Technology"
     ]
   },
   "INDUSTRIAL": {
-    "Capital Goods": [
-      "Compressors, Pumps & Diesel Engines",
+    "Electrical": [
       "Heavy Electrical Equipment",
       "Other Electrical Equipment"
     ],
-    "Parts": [
+    "Machinery": [
+      "Compressors, Pumps & Diesel Engines"
+    ],
+    "Components": [
       "Abrasives & Bearings",
       "Castings & Forgings"
     ],
     "Products": [
-      "Glass - Industrial",
       "Industrial Products",
-      "Other Industrial Products"
+      "Other Industrial Products",
+      "Glass - Industrial"
     ]
   },
   "INFRASTRUCTURE": {
-    "Other": [
-      "Civil Construction",
-      "Dredging",
+    "Construction": [
+      "Civil Construction"
+    ],
+    "Road": [
+      "Logistics Solution Provider",
+      "Road Transport",
+      "Transport Related Services",
       "Road AssetsToll, Annuity, Hybrid-Annuity"
+    ],
+    "Rail": [
+      "Railway Wagons"
+    ],
+    "Sea": [
+      "Port & Port services",
+      "Ship Building & Allied Services",
+      "Shipping",
+      "Dredging"
+    ],
+    "Air": [
+      "Airline",
+      "Airport & Airport services"
     ]
   },
   "INSURANCE": {
-    "Other": [
-      "General Insurance",
-      "Insurance Distributors",
-      "Life Insurance"
+    "Insurance": [
+      "Life Insurance",
+      "General Insurance"
+    ],
+    "Distributors": [
+      "Insurance Distributors"
     ]
   },
   "MEDIA": {
-    "Other": [
-      "Advertising & Media Agencies",
-      "Digital Entertainment",
-      "Electronic Media",
+    "Entertainment": [
       "Film Production, Distribution & Exhibition",
-      "Media & Entertainment",
-      "Print Media",
       "TV Broadcasting & Software Production",
-      "Web based media and service"
+      "Digital Entertainment",
+      "Media & Entertainment"
+    ],
+    "Advertising": [
+      "Advertising & Media Agencies"
+    ],
+    "Digital Media": [
+      "Web based media and service",
+      "Electronic Media"
+    ],
+    "Print Media": [
+      "Print Media"
     ]
   },
   "METALS": {
-    "Other": [
-      "Aluminium",
-      "Aluminium, Copper & Zinc Products",
-      "Copper",
-      "Diversified Metals",
-      "Ferro & Silica Manganese",
+    "Iron": [
       "Iron & Steel",
       "Iron & Steel Products",
       "Pig Iron",
-      "Precious Metals",
-      "Sponge Iron",
-      "Trading - Metals",
-      "Trading - Minerals",
+      "Sponge Iron"
+    ],
+    "Aluminium": [
+      "Aluminium",
+      "Aluminium, Copper & Zinc Products"
+    ],
+    "Copper": [
+      "Copper"
+    ],
+    "Zinc": [
       "Zinc"
-    ]
-  },
-  "MOBILITY": {
-    "Aviation": [
-      "Airline",
-      "Airport & Airport services"
     ],
-    "Railways": [
-      "Railway Wagons"
+    "Precious": [
+      "Precious Metals"
     ],
-    "Road Transport": [
-      "Logistics Solution Provider",
-      "Road Transport",
-      "Transport Related Services"
-    ],
-    "Shipping": [
-      "Port & Port services",
-      "Ship Building & Allied Services",
-      "Shipping"
+    "Other": [
+      "Diversified Metals",
+      "Ferro & Silica Manganese",
+      "Trading - Metals",
+      "Trading - Minerals"
     ]
   },
   "TECH": {
-    "Bio": [
-      "Biotechnology"
+    "IT Services": [
+      "Computers - Software & Consulting",
+      "IT Enabled Services",
+      "Software Products",
+      "E-Learning",
+      "Financial Technology (Fintech)"
+    ],
+    "Telecom": [
+      "Telecom - Cellular & Fixed line services",
+      "Other Telecom Services",
+      "Telecom - Infrastructure",
+      "Telecom - Equipment & Accessories"
     ],
     "Hardware": [
-      "Computers Hardware & Equipments",
-      "Telecom - Equipment & Accessories",
-      "Telecom - Infrastructure"
+      "Computers Hardware & Equipments"
     ],
-    "Services": [
-      "IT Enabled Services",
-      "Other Telecom Services",
-      "Telecom - Cellular & Fixed line services"
-    ],
-    "Software": [
-      "Computers - Software & Consulting",
-      "E-Learning",
-      "Financial Technology (Fintech)",
-      "Software Products"
+    "Biotech": [
+      "Biotechnology"
     ]
   },
   "TEXTILE": {
-    "Other": [
+    "All": [
       "Other Textile Products",
       "Trading - Textile Products"
     ]

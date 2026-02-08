@@ -43,7 +43,7 @@ const ValueCell = ({ value }: { value: string }) => {
 };
 
 // All industry groups as a flat list
-const allGroups = ['CHEMICALS', 'METALS', 'ENERGY', 'CONSUMER', 'FOOD', 'TEXTILE', 'CRAFT TYPE', 'FINANCIAL', 'INSURANCE', 'HEALTHCARE', 'MEDIA', 'INDUSTRIAL', 'INFRASTRUCTURE', 'DEFENSE', 'MOBILITY', 'TECH'];
+const allGroups = ['AUTO', 'CONSTRUCTION', 'CHEMICALS', 'METALS', 'ENERGY', 'CONSUMER', 'F&B', 'TEXTILE', 'CRAFT TYPE', 'FINANCIAL', 'INSURANCE', 'HEALTHCARE', 'MEDIA', 'INDUSTRIAL', 'INFRASTRUCTURE', 'DEFENSE', 'TECH'];
 
 export default function Home() {
   const [allData, setAllData] = useState<IndustryData[]>([]);
@@ -266,16 +266,21 @@ export default function Home() {
         <div className="sidebar-section-title">Industry Groups</div>
         
         {/* Industry Groups */}
-        {allGroups.map(item => (
-          <button
-            key={item}
-            className={`sidebar-item ${currentGroup === item ? 'active' : ''}`}
-            onClick={() => { setCurrentGroup(item); setCurrentSub(null); }}
-          >
-            {item}
-            {currentGroup === item && <Tag style={{ marginLeft: 8 }}>{getIndustryCount(item)}</Tag>}
-          </button>
-        ))}
+        {allGroups.map(item => {
+          const subs = Object.keys(config[item] || {});
+          // Only auto-select first sub if there are multiple sub-categories
+          const firstSub = subs.length > 1 ? subs[0] : null;
+          return (
+            <button
+              key={item}
+              className={`sidebar-item ${currentGroup === item ? 'active' : ''}`}
+              onClick={() => { setCurrentGroup(item); setCurrentSub(firstSub); }}
+            >
+              {item}
+              {currentGroup === item && <Tag style={{ marginLeft: 8 }}>{getIndustryCount(item)}</Tag>}
+            </button>
+          );
+        })}
         
         {/* Refresh Button */}
         <div style={{ padding: '16px', borderTop: '1px solid #f0f0f0', marginTop: 16 }}>
@@ -310,28 +315,40 @@ export default function Home() {
             {currentGroup && subFilters.length > 0 && (
               <div style={{ padding: '0 20px' }}>
                 <Tabs
-                  activeKey={currentSub || 'all'}
+                  activeKey={subFilters.length === 1 ? 'all' : (currentSub || subFilters[0])}
                   onChange={(key) => setCurrentSub(key === 'all' ? null : key)}
-                  items={[
-                    { 
-                      key: 'all', 
-                      label: (
-                        <span>
-                          All {currentGroup}
-                          {!currentSub && <Tag style={{ marginLeft: 8 }}>{getIndustryCount(currentGroup)}</Tag>}
-                        </span>
-                      )
-                    },
-                    ...subFilters.map(sub => ({ 
-                      key: sub, 
-                      label: (
-                        <span>
-                          {sub}
-                          {currentSub === sub && <Tag style={{ marginLeft: 8 }}>{getIndustryCount(currentGroup, sub)}</Tag>}
-                        </span>
-                      )
-                    }))
-                  ]}
+                  items={
+                    subFilters.length === 1
+                      ? [{ 
+                          key: 'all', 
+                          label: (
+                            <span>
+                              All {currentGroup}
+                              <Tag style={{ marginLeft: 8 }}>{getIndustryCount(currentGroup)}</Tag>
+                            </span>
+                          )
+                        }]
+                      : [
+                          { 
+                            key: 'all', 
+                            label: (
+                              <span>
+                                All {currentGroup}
+                                {!currentSub && <Tag style={{ marginLeft: 8 }}>{getIndustryCount(currentGroup)}</Tag>}
+                              </span>
+                            )
+                          },
+                          ...subFilters.map(sub => ({ 
+                            key: sub, 
+                            label: (
+                              <span>
+                                {sub}
+                                {currentSub === sub && <Tag style={{ marginLeft: 8 }}>{getIndustryCount(currentGroup, sub)}</Tag>}
+                              </span>
+                            )
+                          }))
+                        ]
+                  }
                   style={{ marginBottom: 0 }}
                 />
               </div>
