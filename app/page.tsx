@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { Layout, Table, Tabs, Badge, Button, Typography, Alert, Spin, App, Drawer, Grid } from 'antd';
-import { ReloadOutlined, LineChartOutlined, MenuOutlined, CloseOutlined } from '@ant-design/icons';
+import { ReloadOutlined, LineChartOutlined, MenuOutlined, CloseOutlined, LoadingOutlined } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
 import config from './config';
 
@@ -57,24 +57,25 @@ export default function Home() {
     setLoading(true);
     setError(null);
     
-    const proxies = ['https://api.allorigins.win/raw?url=', 'https://corsproxy.io/?'];
+    const startTime = Date.now();
+    const minLoadTime = 800; // minimum loading time for visual feedback
     
-    for (const proxy of proxies) {
-      try {
-        const res = await fetch(proxy + encodeURIComponent('https://www.screener.in/market/'));
-        if (!res.ok) continue;
-        const html = await res.text();
-        if (html.includes('Industry')) {
-          parseData(html);
-          setLoading(false);
-          return;
-        }
-      } catch (e) {
-        console.log('Proxy failed:', proxy);
+    try {
+      const res = await fetch('/api/screener');
+      if (!res.ok) throw new Error('Failed to fetch');
+      
+      const html = await res.text();
+      parseData(html);
+      
+      // Ensure minimum loading time for visual feedback
+      const elapsed = Date.now() - startTime;
+      if (elapsed < minLoadTime) {
+        await new Promise(resolve => setTimeout(resolve, minLoadTime - elapsed));
       }
+    } catch (e) {
+      setError('Failed to load data. Please try again.');
     }
     
-    setError('Failed to load data. Please try again.');
     setLoading(false);
   };
 
@@ -159,6 +160,23 @@ export default function Home() {
       ),
     },
     {
+      title: 'P/E',
+      dataIndex: 'pe',
+      key: 'pe',
+      width: 80,
+      align: 'right',
+      sorter: (a, b) => (parseNum(a.pe) || 0) - (parseNum(b.pe) || 0),
+    },
+    {
+      title: '1Y Return',
+      dataIndex: 'return1y',
+      key: 'return1y',
+      width: 100,
+      align: 'right',
+      sorter: (a, b) => (parseNum(a.return1y) || 0) - (parseNum(b.return1y) || 0),
+      render: (val: string) => <ValueCell value={val} />,
+    },
+    {
       title: 'Companies',
       dataIndex: 'companies',
       key: 'companies',
@@ -181,14 +199,6 @@ export default function Home() {
       width: 120,
       align: 'right',
       sorter: (a, b) => (parseNum(a.medianCap) || 0) - (parseNum(b.medianCap) || 0),
-    },
-    {
-      title: 'P/E',
-      dataIndex: 'pe',
-      key: 'pe',
-      width: 80,
-      align: 'right',
-      sorter: (a, b) => (parseNum(a.pe) || 0) - (parseNum(b.pe) || 0),
     },
     {
       title: 'Sales Growth',
@@ -215,15 +225,6 @@ export default function Home() {
       width: 80,
       align: 'right',
       sorter: (a, b) => (parseNum(a.roce) || 0) - (parseNum(b.roce) || 0),
-      render: (val: string) => <ValueCell value={val} />,
-    },
-    {
-      title: '1Y Return',
-      dataIndex: 'return1y',
-      key: 'return1y',
-      width: 100,
-      align: 'right',
-      sorter: (a, b) => (parseNum(a.return1y) || 0) - (parseNum(b.return1y) || 0),
       render: (val: string) => <ValueCell value={val} />,
     },
   ];
@@ -413,7 +414,6 @@ export default function Home() {
         placement="left"
         onClose={() => setDrawerOpen(false)}
         open={drawerOpen}
-        width={280}
         styles={{ body: { padding: 0 } }}
       >
         {sidebarContent}
@@ -507,8 +507,14 @@ export default function Home() {
             )}
             
             <div style={{ padding: 16 }}>
-              <Spin spinning={loading} tip="Loading data from Screener.in...">
-                <Table
+              {loading && (
+                <Spin 
+                  tip="Loading data from Screener.in..."
+                  indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />}
+                  fullscreen
+                />
+              )}
+              <Table
                 columns={columns}
                 dataSource={filteredData}
                 pagination={{
@@ -520,7 +526,6 @@ export default function Home() {
                 size="middle"
                 style={{ width: '100%' }}
               />
-              </Spin>
             </div>
           </div>
         </Content>
