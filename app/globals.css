@@ -69,6 +69,13 @@ body {
   margin: 4px 16px;
 }
 
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .ant-table-cell {
+    padding: 8px 12px !important;
+  }
+}
+
 /* Smooth scrollbar */
 ::-webkit-scrollbar {
   width: 6px;

@@ -1,13 +1,14 @@
 "use client";
 
 import { useState, useEffect, useMemo } from 'react';
-import { Layout, Table, Tabs, Tag, Button, Typography, Alert, Spin } from 'antd';
-import { ReloadOutlined, LineChartOutlined } from '@ant-design/icons';
+import { Layout, Table, Tabs, Badge, Button, Typography, Alert, Spin, App, Drawer, Grid } from 'antd';
+import { ReloadOutlined, LineChartOutlined, MenuOutlined, CloseOutlined } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
 import config from './config';
 
 const { Sider, Content } = Layout;
 const { Text } = Typography;
+const { useBreakpoint } = Grid;
 
 interface IndustryData {
   key: string;
@@ -48,6 +49,9 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [currentGroup, setCurrentGroup] = useState<string | null>(null);
   const [currentSub, setCurrentSub] = useState<string | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const screens = useBreakpoint();
+  const isMobile = !screens.md;
 
   const fetchData = async () => {
     setLoading(true);
@@ -224,170 +228,228 @@ export default function Home() {
     },
   ];
 
-  return (
-    <Layout style={{ minHeight: '100vh' }}>
-      <Sider
-        width={240}
-        style={{
-          background: '#fff',
-          borderRight: '1px solid #f0f0f0',
-          position: 'fixed',
-          height: '100vh',
-          left: 0,
-          top: 0,
-          overflow: 'auto',
-        }}
+  const handleGroupClick = (group: string | null) => {
+    setCurrentGroup(group);
+    setCurrentSub(null);
+    if (isMobile) setDrawerOpen(false);
+  };
+
+  const sidebarContent = (
+    <>
+      {/* All Industries */}
+      <button
+        className={`sidebar-item ${!currentGroup ? 'active' : ''}`}
+        onClick={() => handleGroupClick(null)}
       >
-        {/* Header */}
-        <div style={{ 
-          padding: '16px', 
-          borderBottom: '1px solid #f0f0f0', 
-          display: 'flex', 
-          alignItems: 'center', 
-          gap: 12 
+        All Industries
+        {!currentGroup && <Badge count={allData.length} overflowCount={999} color="orange" style={{ marginLeft: 8 }} />}
+      </button>
+      
+      {/* Section header */}
+      <div className="sidebar-section-title">Industry Groups</div>
+      
+      {/* Financial */}
+      {['FINANCIAL', 'INSURANCE'].map(item => (
+        <button
+          key={item}
+          className={`sidebar-item ${currentGroup === item ? 'active' : ''}`}
+          onClick={() => handleGroupClick(item)}
+        >
+          {item}
+          {currentGroup === item && <Badge count={getIndustryCount(item)} overflowCount={999} color="orange" style={{ marginLeft: 8 }} />}
+        </button>
+      ))}
+      
+      <div className="sidebar-divider" />
+      
+      {/* Commodities */}
+      {['METALS', 'ENERGY', 'CHEMICALS'].map(item => (
+        <button
+          key={item}
+          className={`sidebar-item ${currentGroup === item ? 'active' : ''}`}
+          onClick={() => handleGroupClick(item)}
+        >
+          {item}
+          {currentGroup === item && <Badge count={getIndustryCount(item)} overflowCount={999} color="orange" style={{ marginLeft: 8 }} />}
+        </button>
+      ))}
+      
+      <div className="sidebar-divider" />
+      
+      {/* Industrial & Auto */}
+      {['INDUSTRIAL', 'AUTO'].map(item => (
+        <button
+          key={item}
+          className={`sidebar-item ${currentGroup === item ? 'active' : ''}`}
+          onClick={() => handleGroupClick(item)}
+        >
+          {item}
+          {currentGroup === item && <Badge count={getIndustryCount(item)} overflowCount={999} color="orange" style={{ marginLeft: 8 }} />}
+        </button>
+      ))}
+      
+      <div className="sidebar-divider" />
+      
+      {/* Infrastructure & Construction */}
+      {['INFRASTRUCTURE', 'CONSTRUCTION'].map(item => (
+        <button
+          key={item}
+          className={`sidebar-item ${currentGroup === item ? 'active' : ''}`}
+          onClick={() => handleGroupClick(item)}
+        >
+          {item}
+          {currentGroup === item && <Badge count={getIndustryCount(item)} overflowCount={999} color="orange" style={{ marginLeft: 8 }} />}
+        </button>
+      ))}
+      
+      <div className="sidebar-divider" />
+      
+      {/* Consumer */}
+      {['CONSUMER', 'F&B', 'TEXTILE', 'CRAFT TYPE'].map(item => (
+        <button
+          key={item}
+          className={`sidebar-item ${currentGroup === item ? 'active' : ''}`}
+          onClick={() => handleGroupClick(item)}
+        >
+          {item}
+          {currentGroup === item && <Badge count={getIndustryCount(item)} overflowCount={999} color="orange" style={{ marginLeft: 8 }} />}
+        </button>
+      ))}
+      
+      <div className="sidebar-divider" />
+      
+      {/* Media */}
+      {['MEDIA'].map(item => (
+        <button
+          key={item}
+          className={`sidebar-item ${currentGroup === item ? 'active' : ''}`}
+          onClick={() => handleGroupClick(item)}
+        >
+          {item}
+          {currentGroup === item && <Badge count={getIndustryCount(item)} overflowCount={999} color="orange" style={{ marginLeft: 8 }} />}
+        </button>
+      ))}
+      
+      <div className="sidebar-divider" />
+      
+      {/* Healthcare */}
+      {['HEALTHCARE'].map(item => (
+        <button
+          key={item}
+          className={`sidebar-item ${currentGroup === item ? 'active' : ''}`}
+          onClick={() => handleGroupClick(item)}
+        >
+          {item}
+          {currentGroup === item && <Badge count={getIndustryCount(item)} overflowCount={999} color="orange" style={{ marginLeft: 8 }} />}
+        </button>
+      ))}
+      
+      <div className="sidebar-divider" />
+      
+      {/* Tech & Defense */}
+      {['TECH', 'DEFENSE'].map(item => (
+        <button
+          key={item}
+          className={`sidebar-item ${currentGroup === item ? 'active' : ''}`}
+          onClick={() => handleGroupClick(item)}
+        >
+          {item}
+          {currentGroup === item && <Badge count={getIndustryCount(item)} overflowCount={999} color="orange" style={{ marginLeft: 8 }} />}
+        </button>
+      ))}
+      
+      {/* Refresh Button */}
+      <div style={{ padding: '16px', borderTop: '1px solid #f0f0f0', marginTop: 16 }}>
+        <Button
+          type="primary"
+          icon={<ReloadOutlined />}
+          onClick={fetchData}
+          loading={loading}
+          block
+        >
+          Refresh Data
+        </Button>
+      </div>
+    </>
+  );
+
+  return (
+    <App>
+    <Layout style={{ minHeight: '100vh' }}>
+      {/* Mobile Header */}
+      {isMobile && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: 56,
+          background: '#fff',
+          borderBottom: '1px solid #f0f0f0',
+          display: 'flex',
+          alignItems: 'center',
+          padding: '0 16px',
+          gap: 12,
+          zIndex: 100,
         }}>
+          <Button
+            type="text"
+            icon={<MenuOutlined />}
+            onClick={() => setDrawerOpen(true)}
+          />
           <LineChartOutlined style={{ fontSize: 20, color: '#1677ff' }} />
           <Text strong style={{ fontSize: 16 }}>Screener Wrapper</Text>
         </div>
-        
-        {/* All Industries */}
-        <button
-          className={`sidebar-item ${!currentGroup ? 'active' : ''}`}
-          onClick={() => { setCurrentGroup(null); setCurrentSub(null); }}
+      )}
+
+      {/* Mobile Drawer */}
+      <Drawer
+        title={
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <LineChartOutlined style={{ fontSize: 20, color: '#1677ff' }} />
+            <span>Screener Wrapper</span>
+          </div>
+        }
+        placement="left"
+        onClose={() => setDrawerOpen(false)}
+        open={drawerOpen}
+        width={280}
+        styles={{ body: { padding: 0 } }}
+      >
+        {sidebarContent}
+      </Drawer>
+
+      {/* Desktop Sider */}
+      {!isMobile && (
+        <Sider
+          width={240}
+          style={{
+            background: '#fff',
+            borderRight: '1px solid #f0f0f0',
+            position: 'fixed',
+            height: '100vh',
+            left: 0,
+            top: 0,
+            overflow: 'auto',
+          }}
         >
-          All Industries
-          {!currentGroup && <Tag style={{ marginLeft: 8 }}>{allData.length}</Tag>}
-        </button>
-        
-        {/* Section header */}
-        <div className="sidebar-section-title">Industry Groups</div>
-        
-        {/* Financial */}
-        {['FINANCIAL', 'INSURANCE'].map(item => (
-          <button
-            key={item}
-            className={`sidebar-item ${currentGroup === item ? 'active' : ''}`}
-            onClick={() => { setCurrentGroup(item); setCurrentSub(null); }}
-          >
-            {item}
-            {currentGroup === item && <Tag style={{ marginLeft: 8 }}>{getIndustryCount(item)}</Tag>}
-          </button>
-        ))}
-        
-        <div className="sidebar-divider" />
-        
-        {/* Commodities */}
-        {['METALS', 'ENERGY', 'CHEMICALS'].map(item => (
-          <button
-            key={item}
-            className={`sidebar-item ${currentGroup === item ? 'active' : ''}`}
-            onClick={() => { setCurrentGroup(item); setCurrentSub(null); }}
-          >
-            {item}
-            {currentGroup === item && <Tag style={{ marginLeft: 8 }}>{getIndustryCount(item)}</Tag>}
-          </button>
-        ))}
-        
-        <div className="sidebar-divider" />
-        
-        {/* Industrial & Auto */}
-        {['INDUSTRIAL', 'AUTO'].map(item => (
-          <button
-            key={item}
-            className={`sidebar-item ${currentGroup === item ? 'active' : ''}`}
-            onClick={() => { setCurrentGroup(item); setCurrentSub(null); }}
-          >
-            {item}
-            {currentGroup === item && <Tag style={{ marginLeft: 8 }}>{getIndustryCount(item)}</Tag>}
-          </button>
-        ))}
-        
-        <div className="sidebar-divider" />
-        
-        {/* Infrastructure & Construction */}
-        {['INFRASTRUCTURE', 'CONSTRUCTION'].map(item => (
-          <button
-            key={item}
-            className={`sidebar-item ${currentGroup === item ? 'active' : ''}`}
-            onClick={() => { setCurrentGroup(item); setCurrentSub(null); }}
-          >
-            {item}
-            {currentGroup === item && <Tag style={{ marginLeft: 8 }}>{getIndustryCount(item)}</Tag>}
-          </button>
-        ))}
-        
-        <div className="sidebar-divider" />
-        
-        {/* Consumer */}
-        {['CONSUMER', 'F&B', 'TEXTILE', 'CRAFT TYPE'].map(item => (
-          <button
-            key={item}
-            className={`sidebar-item ${currentGroup === item ? 'active' : ''}`}
-            onClick={() => { setCurrentGroup(item); setCurrentSub(null); }}
-          >
-            {item}
-            {currentGroup === item && <Tag style={{ marginLeft: 8 }}>{getIndustryCount(item)}</Tag>}
-          </button>
-        ))}
-        
-        <div className="sidebar-divider" />
-        
-        {/* Media */}
-        {['MEDIA'].map(item => (
-          <button
-            key={item}
-            className={`sidebar-item ${currentGroup === item ? 'active' : ''}`}
-            onClick={() => { setCurrentGroup(item); setCurrentSub(null); }}
-          >
-            {item}
-            {currentGroup === item && <Tag style={{ marginLeft: 8 }}>{getIndustryCount(item)}</Tag>}
-          </button>
-        ))}
-        
-        <div className="sidebar-divider" />
-        
-        {/* Healthcare */}
-        {['HEALTHCARE'].map(item => (
-          <button
-            key={item}
-            className={`sidebar-item ${currentGroup === item ? 'active' : ''}`}
-            onClick={() => { setCurrentGroup(item); setCurrentSub(null); }}
-          >
-            {item}
-            {currentGroup === item && <Tag style={{ marginLeft: 8 }}>{getIndustryCount(item)}</Tag>}
-          </button>
-        ))}
-        
-        <div className="sidebar-divider" />
-        
-        {/* Tech & Defense */}
-        {['TECH', 'DEFENSE'].map(item => (
-          <button
-            key={item}
-            className={`sidebar-item ${currentGroup === item ? 'active' : ''}`}
-            onClick={() => { setCurrentGroup(item); setCurrentSub(null); }}
-          >
-            {item}
-            {currentGroup === item && <Tag style={{ marginLeft: 8 }}>{getIndustryCount(item)}</Tag>}
-          </button>
-        ))}
-        
-        {/* Refresh Button */}
-        <div style={{ padding: '16px', borderTop: '1px solid #f0f0f0', marginTop: 16 }}>
-          <Button
-            type="primary"
-            icon={<ReloadOutlined />}
-            onClick={fetchData}
-            loading={loading}
-            block
-          >
-            Refresh Data
-          </Button>
-        </div>
-      </Sider>
+          {/* Header */}
+          <div style={{ 
+            padding: '16px', 
+            borderBottom: '1px solid #f0f0f0', 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: 12 
+          }}>
+            <LineChartOutlined style={{ fontSize: 20, color: '#1677ff' }} />
+            <Text strong style={{ fontSize: 16 }}>Screener Wrapper</Text>
+          </div>
+          {sidebarContent}
+        </Sider>
+      )}
       
-      <Layout style={{ marginLeft: 240 }}>
-        <Content style={{ padding: 32, background: '#f5f5f5', minHeight: '100vh' }}>
+      <Layout style={{ marginLeft: isMobile ? 0 : 240, marginTop: isMobile ? 56 : 0 }}>
+        <Content style={{ padding: isMobile ? 16 : 32, background: '#f5f5f5', minHeight: '100vh' }}>
           {error && (
             <Alert
               message={error}
@@ -414,7 +476,7 @@ export default function Home() {
                           label: (
                             <span>
                               All {currentGroup}
-                              <Tag style={{ marginLeft: 8 }}>{getIndustryCount(currentGroup)}</Tag>
+                              <Badge count={getIndustryCount(currentGroup)} overflowCount={999} color="orange" style={{ marginLeft: 8 }} />
                             </span>
                           )
                         }]
@@ -424,7 +486,7 @@ export default function Home() {
                             label: (
                               <span>
                                 All {currentGroup}
-                                {!currentSub && <Tag style={{ marginLeft: 8 }}>{getIndustryCount(currentGroup)}</Tag>}
+                                {!currentSub && <Badge count={getIndustryCount(currentGroup)} overflowCount={999} color="orange" style={{ marginLeft: 8 }} />}
                               </span>
                             )
                           },
@@ -433,7 +495,7 @@ export default function Home() {
                             label: (
                               <span>
                                 {sub}
-                                {currentSub === sub && <Tag style={{ marginLeft: 8 }}>{getIndustryCount(currentGroup, sub)}</Tag>}
+                                {currentSub === sub && <Badge count={getIndustryCount(currentGroup, sub)} overflowCount={999} color="orange" style={{ marginLeft: 8 }} />}
                               </span>
                             )
                           }))
@@ -464,5 +526,6 @@ export default function Home() {
         </Content>
       </Layout>
     </Layout>
+    </App>
   );
 }
