@@ -63,6 +63,16 @@ body {
   font-weight: 500;
 }
 
+.sidebar-item.disabled {
+  color: rgba(0, 0, 0, 0.25);
+  cursor: not-allowed;
+}
+
+.sidebar-item.disabled:hover {
+  color: rgba(0, 0, 0, 0.25);
+  background: transparent;
+}
+
 .sidebar-divider {
   height: 1px;
   background: #f0f0f0;

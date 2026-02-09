@@ -335,28 +335,17 @@ export default function Home() {
             background: '#fff',
             borderRight: '1px solid #f0f0f0',
             position: 'fixed',
-            height: '100vh',
+            height: 'calc(100vh - 46px)',
             left: 0,
-            top: 0,
+            top: 46,
             overflow: 'auto',
           }}
         >
-          {/* Header */}
-          <div style={{ 
-            padding: '16px', 
-            borderBottom: '1px solid #f0f0f0', 
-            display: 'flex', 
-            alignItems: 'center', 
-            gap: 12 
-          }}>
-            <LineChartOutlined style={{ fontSize: 20, color: '#1677ff' }} />
-            <Text strong style={{ fontSize: 16 }}>Screener Wrapper</Text>
-          </div>
           {sidebarContent}
         </Sider>
       )}
       
-      <Layout style={{ marginLeft: isMobile ? 0 : 240, marginTop: isMobile ? 56 : 0 }}>
+      <Layout style={{ marginLeft: isMobile ? 0 : 240, marginTop: isMobile ? 56 : 46 }}>
         <Content style={{ padding: isMobile ? 16 : 32, background: '#f5f5f5', minHeight: '100vh' }}>
           {error && (
             <Alert

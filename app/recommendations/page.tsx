@@ -1,16 +1,17 @@
 "use client";
 
 import { useState, useMemo } from 'react';
-import { Layout, Badge, Typography, Table, Tooltip, Avatar, Button } from 'antd';
-import { ClearOutlined, LinkOutlined } from '@ant-design/icons';
+import { Layout, Badge, Typography, Table, Tooltip, Avatar, Button, Drawer, Grid } from 'antd';
+import { ClearOutlined, LinkOutlined, MenuOutlined, LineChartOutlined } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
 import recommendations from '../data/dynamic/recommendations.json';
-import sectorConfig, { GROUP_ORDER } from '../data/config/sectors';
+import sectorConfig, { GROUP_ORDER, SIDEBAR_SECTIONS } from '../data/config/sectors';
 import stocks from '../data/config/stocks';
 import TopNav from '../components/TopNav';
 
-const { Content } = Layout;
+const { Sider, Content } = Layout;
 const { Text } = Typography;
+const { useBreakpoint } = Grid;
 
 interface StockRec {
   name: string;
@@ -72,6 +73,9 @@ export default function RecommendationsPage() {
   const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
   const [filteredInfo, setFilteredInfo] = useState<Record<string, string[] | null>>({});
   const [sortedInfo, setSortedInfo] = useState<{ columnKey?: string; order?: 'ascend' | 'descend' }>({});
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const screens = useBreakpoint();
+  const isMobile = !screens.md;
 
   const allRecommenders = useMemo(() => {
     return Object.keys(recommendations as RecommendationsData);
@@ -178,6 +182,53 @@ export default function RecommendationsPage() {
   const totalStocks = useMemo(() => {
     return tableData.reduce((sum, row) => sum + (row.stocks?.length || 0), 0);
   }, [tableData]);
+
+  const handleGroupClick = (group: string | null) => {
+    setSelectedGroup(group);
+    if (isMobile) setDrawerOpen(false);
+  };
+
+  const sidebarContent = (
+    <>
+      {/* All Industries */}
+      <button
+        className={`sidebar-item ${!selectedGroup ? 'active' : ''}`}
+        onClick={() => handleGroupClick(null)}
+      >
+        All Industries
+        {!selectedGroup && <Badge count={tableData.length} overflowCount={999} color="orange" style={{ marginLeft: 8 }} />}
+      </button>
+      
+      {/* Section header */}
+      <div className="sidebar-section-title">Industry Groups</div>
+      
+      {SIDEBAR_SECTIONS.map((section, sectionIndex) => (
+        <div key={sectionIndex}>
+          {section.map(item => {
+            const hasData = groupCounts[item];
+            const stockCount = groupCounts[item]?.stocks || 0;
+            return (
+              <button
+                key={item}
+                className={`sidebar-item ${selectedGroup === item ? 'active' : ''} ${!hasData ? 'disabled' : ''}`}
+                onClick={() => hasData && handleGroupClick(item)}
+                disabled={!hasData}
+              >
+                {item}
+                {selectedGroup === item && hasData && (
+                  <Badge count={groupCounts[item].industries} overflowCount={999} color="orange" style={{ marginLeft: 8 }} />
+                )}
+                {stockCount > 0 && (
+                  <Badge count={stockCount} overflowCount={999} color="green" style={{ marginLeft: 4 }} />
+                )}
+              </button>
+            );
+          })}
+          {sectionIndex < SIDEBAR_SECTIONS.length - 1 && <div className="sidebar-divider" />}
+        </div>
+      ))}
+    </>
+  );
 
   const columns: ColumnsType<IndustryRow> = [
     {
@@ -358,70 +409,100 @@ export default function RecommendationsPage() {
   return (
     <>
       <TopNav />
-      <Layout style={{ minHeight: '100vh', background: '#f5f5f5' }}>
-        <Content style={{ padding: 32 }}>
-          <div style={{ background: '#fff', borderRadius: 8, overflow: 'hidden' }}>
-            <div style={{ padding: 16 }}>
-              {/* Industry Group Filter Buttons */}
-              <div style={{ marginBottom: 16, display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                <Button
-                  type={selectedGroup === null ? 'primary' : 'default'}
-                  onClick={() => setSelectedGroup(null)}
-                >
-                  All
-                  <Badge count={totalStocks} style={{ marginLeft: 8, backgroundColor: selectedGroup === null ? '#fff' : '#52c41a' }} />
-                </Button>
-                {GROUP_ORDER.map(group => {
-                  const hasData = groupCounts[group];
-                  const stockCount = groupCounts[group]?.stocks || 0;
-                  return (
-                    <Button
-                      key={group}
-                      type={selectedGroup === group ? 'primary' : 'default'}
-                      onClick={() => setSelectedGroup(group)}
-                      disabled={!hasData}
-                      style={{ opacity: hasData ? 1 : 0.5 }}
-                    >
-                      {group}
-                      {stockCount > 0 && (
-                        <Badge 
-                          count={stockCount} 
-                          style={{ marginLeft: 8, backgroundColor: selectedGroup === group ? '#fff' : '#52c41a' }} 
-                        />
-                      )}
-                    </Button>
-                  );
-                })}
-              </div>
-
-              <Button
-                icon={<ClearOutlined />}
-                onClick={() => {
-                  setFilteredInfo({});
-                  setSelectedGroup(null);
-                }}
-                style={{ marginBottom: 16 }}
-              >
-                Clear filters
-              </Button>
-              <Table
-                columns={columns}
-                dataSource={filteredTableData}
-                pagination={false}
-                size="middle"
-                scroll={{ x: 1100 }}
-                expandable={{
-                  expandedRowRender,
-                  rowExpandable: (record) => !!record.stocks && record.stocks.length > 0,
-                }}
-                onChange={(_, filters, sorter) => {
-                  setFilteredInfo(filters as Record<string, string[] | null>);
-                  setSortedInfo(sorter as { columnKey?: string; order?: 'ascend' | 'descend' });
-                }}
-              />
-            </div>
+      <Layout style={{ minHeight: '100vh' }}>
+        {/* Mobile Header */}
+        {isMobile && (
+          <div style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            height: 56,
+            background: '#fff',
+            borderBottom: '1px solid #f0f0f0',
+            display: 'flex',
+            alignItems: 'center',
+            padding: '0 16px',
+            gap: 12,
+            zIndex: 100,
+          }}>
+            <Button
+              type="text"
+              icon={<MenuOutlined />}
+              onClick={() => setDrawerOpen(true)}
+            />
+            <LineChartOutlined style={{ fontSize: 20, color: '#1677ff' }} />
+            <Text strong style={{ fontSize: 16 }}>Recommendations</Text>
           </div>
-        </Content>
+        )}
+
+        {/* Mobile Drawer */}
+        <Drawer
+          title={
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <LineChartOutlined style={{ fontSize: 20, color: '#1677ff' }} />
+              <span>Recommendations</span>
+            </div>
+          }
+          placement="left"
+          onClose={() => setDrawerOpen(false)}
+          open={drawerOpen}
+          styles={{ body: { padding: 0 } }}
+        >
+          {sidebarContent}
+        </Drawer>
+
+        {/* Desktop Sider */}
+        {!isMobile && (
+          <Sider
+            width={240}
+            style={{
+              background: '#fff',
+              borderRight: '1px solid #f0f0f0',
+              position: 'fixed',
+              height: 'calc(100vh - 46px)',
+              left: 0,
+              top: 46,
+              overflow: 'auto',
+            }}
+          >
+            {sidebarContent}
+          </Sider>
+        )}
+
+        <Layout style={{ marginLeft: isMobile ? 0 : 240, marginTop: isMobile ? 56 : 46 }}>
+          <Content style={{ padding: isMobile ? 16 : 32, background: '#f5f5f5', minHeight: '100vh' }}>
+            <div style={{ background: '#fff', borderRadius: 8, overflow: 'hidden' }}>
+              <div style={{ padding: 16 }}>
+                <Button
+                  icon={<ClearOutlined />}
+                  onClick={() => {
+                    setFilteredInfo({});
+                    setSelectedGroup(null);
+                  }}
+                  style={{ marginBottom: 16 }}
+                >
+                  Clear filters
+                </Button>
+                <Table
+                  columns={columns}
+                  dataSource={filteredTableData}
+                  pagination={false}
+                  size="middle"
+                  scroll={{ x: 1100 }}
+                  expandable={{
+                    expandedRowRender,
+                    rowExpandable: (record) => !!record.stocks && record.stocks.length > 0,
+                  }}
+                  onChange={(_, filters, sorter) => {
+                    setFilteredInfo(filters as Record<string, string[] | null>);
+                    setSortedInfo(sorter as { columnKey?: string; order?: 'ascend' | 'descend' });
+                  }}
+                />
+              </div>
+            </div>
+          </Content>
+        </Layout>
       </Layout>
     </>
   );

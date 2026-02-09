@@ -25,9 +25,11 @@ export default function TopNav() {
     <div style={{ 
       background: '#fff', 
       borderBottom: '1px solid #f0f0f0',
-      position: 'sticky',
+      position: 'fixed',
       top: 0,
-      zIndex: 100,
+      left: 0,
+      right: 0,
+      zIndex: 1000,
     }}>
       <Menu
         mode="horizontal"
