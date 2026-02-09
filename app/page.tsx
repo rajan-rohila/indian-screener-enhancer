@@ -2,9 +2,9 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { Layout, Table, Tabs, Badge, Button, Typography, Alert, Spin, App, Drawer, Grid } from 'antd';
-import { ReloadOutlined, LineChartOutlined, MenuOutlined, CloseOutlined, LoadingOutlined } from '@ant-design/icons';
+import { ReloadOutlined, LineChartOutlined, MenuOutlined, LoadingOutlined } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
-import config, { GROUP_ORDER, SIDEBAR_SECTIONS } from './config';
+import config, { SIDEBAR_SECTIONS } from './data/config/sectors';
 import TopNav from './components/TopNav';
 
 const { Sider, Content } = Layout;
