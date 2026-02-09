@@ -1,70 +1,77 @@
 {
   "Harnoor": [
     {
-      "type": "stock",
-      "key": "Reliance Industries",
-      "thesis": "India-US trade deal winner - Jamnagar refinery is only one equipped to process heavier Venezuelan oil, plus data center investments got budget tax exemptions"
+      "industry": "Refineries & Marketing",
+      "thesis": "India-US trade deal benefits oil sector",
+      "stocks": [
+        {
+          "name": "Reliance Industries",
+          "thesis": "Jamnagar refinery is only one equipped to process heavier Venezuelan oil, plus data center investments got budget tax exemptions"
+        }
+      ]
     },
     {
-      "type": "sector",
-      "key": "Pharmaceuticals",
+      "industry": "Pharmaceuticals",
       "thesis": "Generic pharma to benefit from tariff reductions - Zydus, Sun Pharma, Lupin, Aurobindo"
     },
     {
-      "type": "sector",
-      "key": "Gems, Jewellery And Watches",
+      "industry": "Gems, Jewellery And Watches",
       "thesis": "Trade deal reduces tariffs on gems & jewelry exports to US"
     },
     {
-      "type": "sector",
-      "key": "Consumer Electronics",
+      "industry": "Consumer Electronics",
       "thesis": "Smartphones and electronics benefit - Tata Electronics (Apple components), Dixon Technologies (Android)"
     },
     {
-      "type": "sector",
-      "key": "Auto Components & Equipments",
-      "thesis": "Auto ancillary with US exposure benefits - Bharat Forge, Sona BLW, Motherson Sumi"
+      "industry": "Auto Components & Equipments",
+      "thesis": "Auto ancillary with US exposure benefits - Bharat Forge, Sona BLW, Motherson Sumi",
+      "stocks": [
+        {
+          "name": "Sona BLW",
+          "thesis": "Strong performance despite challenges, significant US exposure benefits from reduced tariffs"
+        }
+      ]
     },
     {
-      "type": "sector",
-      "key": "Heavy Electrical Equipment",
+      "industry": "Heavy Electrical Equipment",
       "thesis": "Capital goods benefit from Make in India theme promoted by trade deal"
     },
     {
-      "type": "stock",
-      "key": "CCL Products",
-      "thesis": "Spices, tea and coffee sector benefits from trade deal tariff reductions"
+      "industry": "Tea & Coffee",
+      "thesis": "Spices, tea and coffee benefit from trade deal tariff reductions",
+      "stocks": [
+        {
+          "name": "CCL Products",
+          "thesis": "Key player in coffee sector benefiting from tariff reductions"
+        }
+      ]
     },
     {
-      "type": "stock",
-      "key": "MTAR Technologies",
-      "thesis": "Aircraft parts and machinery components player benefiting from trade deal"
-    },
-    {
-      "type": "stock",
-      "key": "Azad Engineering",
-      "thesis": "Aircraft parts and machinery components player benefiting from trade deal"
-    },
-    {
-      "type": "stock",
-      "key": "Sona BLW",
-      "thesis": "Strong performance despite challenges, significant US exposure benefits from reduced tariffs"
+      "industry": "Aerospace & Defense",
+      "thesis": "Aircraft parts and machinery components benefit from trade deal",
+      "stocks": [
+        {
+          "name": "MTAR Technologies",
+          "thesis": "Aircraft parts and machinery components player benefiting from trade deal"
+        },
+        {
+          "name": "Azad Engineering",
+          "thesis": "Aircraft parts and machinery components player benefiting from trade deal"
+        }
+      ]
     }
   ],
   "Kedia": [
     {
-      "type": "sector",
-      "key": "Civil Construction",
+      "industry": "Civil Construction",
       "thesis": "Infrastructure stocks significantly declined from highs, crucial for India's economic growth - good time for selective buying"
     },
     {
-      "type": "sector",
-      "key": "Tour, Travel Related Services",
+      "industry": "Tour, Travel Related Services",
       "thesis": "Tourism is a sunrise theme with strong growth potential"
     },
     {
-      "type": "sector",
-      "key": "Hotels & Resorts",
+      "industry": "Hotels & Resorts",
       "thesis": "Tourism is a sunrise theme with strong growth potential"
     }
   ]
